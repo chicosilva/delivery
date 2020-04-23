@@ -1,0 +1,7 @@
+*.py[cod]
+core/media/*
+.venv/*
+.venv
+.vscode/*
+.pylintrc
+.DS_Store

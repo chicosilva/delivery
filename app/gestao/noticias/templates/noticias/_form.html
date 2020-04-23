@@ -1,0 +1,222 @@
+{% load widget_tweaks %}
+
+<form action="{% url "gestao:noticias:add" %}" method="post">
+
+	{% csrf_token %}
+	<div class="m-form__section m-form__section--first">
+
+		<div class="row">
+
+			<div class="col-md-6">
+
+				<div class="form-group m-form__group">
+					<label for="example_input_full_name">Título:</label>
+					{% render_field form.title class="form-control m-input" required=True type="text" %}
+				</div>
+
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="form-group m-form__group">
+					<label>Descrição:</label>
+					{% render_field form.summary class="form-control m-input" required=True type="text" %}
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="form-group m-form__group">
+			<label>Texto:</label>
+			{% render_field form.text id="text" required=false class="form-control m-input" rows="20" cols="20" %}
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-2">
+
+				<div class="m-form__group form-group">
+					<br>
+					<div class="m-checkbox-list">
+						<label class="m-checkbox">
+							<input type="checkbox"> Publicar?
+							<span></span>
+						</label>
+						
+						
+					</div>
+				</div>
+
+			</div>
+
+
+			<div class="col-md-2">
+
+				<div class="m-form__group form-group">
+					
+					<div class="m-checkbox-list">
+						<br>
+						<label class="m-checkbox">
+							<input type="checkbox"> Destaque?
+							<span></span>
+						</label>
+						
+						
+					</div>
+				</div>
+
+			</div>
+
+
+			<div class="col-md-2">
+
+				<div class="m-form__group form-group">
+					<br>
+					<div class="m-checkbox-list">
+						
+						<label class="m-checkbox">
+							<input type="checkbox"> Comentários?
+							<span></span>
+						</label>
+						
+					</div>
+				</div>
+
+			</div>
+
+
+			<div class="col-md-3">
+
+				<div class="form-group m-form__group">
+					<label>Categoria:</label>
+					{% render_field form.category class="form-control" required=True %}
+					
+				</div>
+			
+			</div>
+
+			<div class="col-md-3">
+
+				<div class="form-group m-form__group">
+					<label>Autor:</label>
+					<input type="email" placeholder="Autor ou fonte:" class="form-control m-input" placeholder="">
+				</div>
+			
+			</div>
+
+
+		</div>
+		
+
+		<div class="row">
+			
+			<div class="col-md-4">
+				<a class="btn btn-info">
+					<i class="flaticon-plus"></i> Álbum de fotos (12 selecionadas)
+				</a>
+			</div>
+
+		</div>
+
+
+		<!-- configurações avançadas  -->
+		<div class="row" style="padding-top: 20px; ">
+			<div class="col-md-12">
+				<hr>
+			</div>
+			<div class="col-md-4">
+
+				<div class="m-form__group form-group">
+					
+					<div class="m-checkbox-list">
+						<label class="m-checkbox">
+							<input id="mostrar-configuracoes-avancadas" type="checkbox"> Mostrar Configurações avançadas?
+							<span></span>
+						</label>
+						
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="row configuracoes-avancadas" style="padding-top: 20px; display:none">
+
+			<div class="col-md-3">
+
+				<div class="form-group m-form__group">
+					<label>Link:</label>
+					<input type="email" class="form-control m-input" placeholder="">
+				</div>
+
+			</div>
+
+
+			<div class="col-md-3">
+
+				<div class="form-group m-form__group">
+					<label>Data:</label>
+					<input type="email" class="form-control m-input" placeholder="">
+				</div>
+
+			</div>
+
+
+			<div class="col-md-3">
+
+				<div class="form-group m-form__group">
+					<label>Slug:</label>
+					<input type="email" class="form-control m-input" placeholder="">
+				</div>
+
+			</div>
+
+			<div class="col-md-3">
+
+				<div class="form-group m-form__group">
+					<label>Posição do banner:</label>
+					<input type="email" class="form-control m-input" placeholder="">
+				</div>
+
+			</div>
+
+			<div class="col-md-12">
+				<hr>
+			</div>
+
+			<div class="col-md-3">
+
+				<div class="form-group m-form__group">
+					<label>Posição veja também:</label>
+					<input type="email" class="form-control m-input" placeholder="">
+				</div>
+
+			</div>
+
+			<div class="col-md-3">
+
+				<div class="m-form__group form-group">
+					
+					<div class="m-checkbox-list" style="padding-top:25px">
+						<label class="m-checkbox">
+							<input id="mostrar-configuracoes-avancadas" type="checkbox"> Conteúdo padrão
+							<span></span>
+						</label>
+						
+					</div>
+				</div>
+
+			</div>
+
+		
+		</div>
+
+		<div class="m-form__actions m-form__actions">
+			<hr>
+			<button type="submit" class="btn btn-primary">Salvar</button>
+		</div>
+
+	</div>
+</form>

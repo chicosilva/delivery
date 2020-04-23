@@ -1,0 +1,86 @@
+{% extends "gestao.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+
+	<div class="m-content">
+
+		<div class="row">
+
+			<div class="col-xl-12">
+
+				<div class="m-portlet">
+
+					<div class="m-portlet__head">
+						
+						<div class="m-portlet__head-caption">
+							<div class="m-portlet__head-title">
+								<h3 class="m-portlet__head-text">
+									Notícias
+								</h3>
+							</div>
+						</div>
+
+						<div class="m-portlet__head-tools">
+							<a href="{% url "gestao:noticias:add" %}" class="btn btn-metal">  <i class="flaticon-plus"></i> Nova</a>
+						</div>
+
+					</div>
+
+					<div class="m-portlet__body">
+
+						<!--begin::Section-->
+						<div class="m-section">
+							<div class="m-section__content">
+
+								<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>TÍTULO</th>
+											<th class="text-center">VIEWS</th>
+											<th class="text-center">COMENTÁRIOS</th>
+											<th class="text-center">PUBLICADO?</th>
+											<th class="text-center">DATA</th>
+										</tr>
+									</thead>
+									<tbody>
+
+										{% for noticia in noticias %}
+											<tr>
+												<td>
+													<a href="{% url "gestao:noticias:editar" noticia.pk %}">
+														{{noticia.title}}
+													</a>
+
+												</td>
+												<td class="text-center">86</td>
+												<td class="text-center">12</td>
+												<td class="text-center"><span class="m-badge m-badge--success m-badge--wide">P</span></td>
+												<td class="text-center">12/12/2020</td>
+											</tr>
+										{% endfor %}
+										
+									</tbody>
+								</table>
+							</div>
+
+							</div>
+						</div>
+
+						<!--end::Section-->
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</div>
+</div>
+
+{% endblock content %}

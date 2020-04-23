@@ -1,0 +1,177 @@
+{% extends "painel.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+{% load core_extras %}
+{% load bootstrap_pagination %}
+{% load thumbnail %}
+
+{% block content %}
+
+    <form class="m-form" action="{% url "eventos:passo1" %}" method="post" >
+        {% csrf_token %}
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+
+                    <h3 class="m-portlet__head-text">
+                        Qual é o nome do evento?
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="form-group m-form__group">
+                <label for="example_input_full_name">Nome do evento</label>
+                
+                {% render_field form.nome type="text" class="form-control m-input" required=True placeholder="Digite o nome do evento" %}
+                {{form.nome.errors}}
+
+            </div>
+        </div>
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+
+                    <h3 class="m-portlet__head-text">
+                        Onde seu evento vai acontecer?
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="form-group m-form__group row">
+                <div class="col-md-3">
+
+                    {% render_field form.tipo_local class+="local-evento form-control m-bootstrap-select m_selectpicker" %}
+                    {{form.tipo_local.errors}}
+
+                </div>
+                
+                <div class="col-md-5">
+                    <div class="m-input-icon m-input-icon--left">
+                        
+                        {% render_field form.local type="text" class="form-control m-input" placeholder="Digite o local do evento" %}
+                        {{form.local.errors}}
+                        <span class="m-input-icon__icon m-input-icon__icon--left"><span><i class="la la-map-marker"></i></span></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+
+                    <h3 class="m-portlet__head-text">
+                        Data e Hora
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="form-group m-form__group row">
+                <div class="col-md-3">
+                    <span class="">Data de início</span>
+                    <div class="input-group date">
+                        
+                        {% render_field form.data_inicio type="text" class="form-control m-input datepicker" required=True placeholder="Data de início" autocomplete="off" %}
+                        {{form.data_inicio.errors}}
+
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-calendar-check-o"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <span class="">Hora de início</span>
+                    <div class="input-group timepicker">
+                        
+                        {% render_field form.hora_inicio type="text" class="form-control m-input timepicker" required=True placeholder="Hora de início" autocomplete="off" %}
+                        {{form.hora_inicio.errors}}
+
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-clock-o"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <span class="">Data de término</span>
+                    <div class="input-group date">
+                        
+                        {% render_field form.data_termino type="text" class="form-control m-input datepicker" required=True placeholder="Data de término" autocomplete="off" %}
+                        {{form.data_termino.errors}}
+
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-calendar-check-o"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <span class="">Hora de término</span>
+                    <div class="input-group timepicker">
+                        
+                        {% render_field form.hora_termino type="text" class="form-control m-input timepicker" required=True placeholder="Hora de término" autocomplete="off" %}
+                        {{form.hora_termino.errors}}
+
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-clock-o"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+
+                    <h3 class="m-portlet__head-text">
+                            Informações extras?
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <div class="form-group m-form__group row">
+                <div class="col-md-3">
+                    <span class="">Tipo</span>
+                    {% render_field form.tipo class+="form-control m-bootstrap-select m_selectpicker" %}
+
+                </div>
+                <div class="col-md-3">
+                    <span class="">Categoria</span>
+                    {% render_field form.categoria class+="form-control m-bootstrap-select m_selectpicker" %}
+                  
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions m-form__actions--solid m-form__actions--right">
+                <button class="btn btn-brand">Salvar e continuar</button>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}
+
+{% block js_extras %}
+    
+<script src="{% static "js/passos-cadastro.js" %}?update" type="text/javascript"></script>
+
+
+
+{% endblock %}

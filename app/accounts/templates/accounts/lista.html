@@ -1,0 +1,111 @@
+{% extends "painel-admin.html" %}
+{% load thumbnail %}
+{% load static %}
+{% load bootstrap_pagination %}
+
+{% block content %}
+
+<div class="ibox-content m-b-sm border-bottom">
+
+    <div class="pull-right">
+        <a href="{% url "accounts:novo" %}" class="btn btn-info"><i class="fa fa-plus"></i> Adicionar</a>
+    </div>
+
+    {% include "core/messages.html" %}
+
+    <form action="{% url "accounts:lista" %}">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <input type="text" placeholder="Nome" name="nome" value="{{request.GET.nome}}" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group">
+
+                    <button class="btn btn-default">Buscar</button>
+                    <a href="{% url "accounts:lista" %}" class="btn btn-default">Limpar</a>
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-content">
+
+                {% if not atendentes %}
+                    <div class="alert alert-warning">Nenhum registro encontrado</div>
+                {% endif %}
+
+                {% if atendentes %}
+                <div class="table-responsive">
+                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                        <thead>
+                            <tr>
+
+                                <th>Nome</th>
+                                <th>Ativo?</th>
+                                <th>Membro da equipe?</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in atendentes %}
+                            <tr>
+
+                                <td>
+                                    <a href="{% url "accounts:editar" obj.pk %}">
+                                        {{obj.name}}
+                                    </a>
+                                </td>
+                                
+                                <td>
+                                    {{obj.is_active|yesno:"Sim,Não"}}
+                                </td>
+
+                                <td>
+                                    {{obj.is_staff|yesno:"Sim,Não"}}
+                                </td>
+
+                                <td>
+
+                                    <a href="{% url "accounts:editar" obj.pk %}" class="btn btn-success">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="{% url "accounts:editar-senha" obj.pk %}" class="btn btn-success">
+                                        <i class="fa fa-key"></i>
+                                    </a>
+                                    
+                                </td>
+                                
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                        <tfoot>
+
+                    </table>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% if perguntas %}
+    <div class="text-center col-lg-12">
+        {% bootstrap_paginate perguntas previous_label="Anterior" next_label="Seguinte" %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends "painel.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load core_extras %}
+{% load bootstrap_pagination %}
+{% load thumbnail %}
+{% load embed_video_tags %}
+
+
+{% block content %}
+<div class="col-md-9">
+
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+
+                <h3 class="m-portlet__head-text">
+                    Imagem/Banner de divulgação?
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="m-portlet__body">
+        <div class="row">
+            <div class="col-md-11">
+                Essa é a primeira imagem que seus participantes verão no início da sua página.<br>
+                A dimensão recomendada é de 1600 x 838<br>
+                Formato JPEG, GIF ou PNG de no máximo 2MB.<br>
+                Imagens com tamanhos diferentes serão redimensionadas.
+            </div>
+
+            
+            <div class="col-md-11 form-group m-form__group">
+                <div class="camera2 profile_pic_banner">
+                    <label id="getFileLabel" for="getFile"></label>
+
+                    <h5 class="text-center">
+                        <a href="#" id="anexar-banner">
+                            Clique aqui para incluir um novo banner.
+                        </a>
+                    </h5>
+
+                    <i class="far fa-image"></i> 
+                    
+                    <img src="" class="img-fluid" width='100%' id="img-provisoria" />
+
+                    {% thumbnail evento.banner "600x300" crop="center" format="PNG" as img %}
+                        <img width="{{ img.width }}" height="{{ img.height }}" src="{{ img.url }}" class="img-fluid">
+                        <button id="btn-remover-banner" class="btn btn-danger" type="button" >Remover banner</button>
+                    {% endthumbnail %}      
+
+                    <form id="form-banner-evento">
+                        {% csrf_token %}
+                        <input name="uuid" id="uuid" value="{{evento.uuid}}" type="hidden" />
+                        <div class="row" style="display:none;">
+                            <input class="form-control" type="file" id="id-banner" required name="banner" />
+                        </div>
+                        <button id="btn-remover-banner" style="display:none" class="btn btn-danger" type="button" >Remover banner</button>
+                    </form>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+
+                <h3 class="m-portlet__head-text">
+                    Fale mais sobre o evento:
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-portlet__body">
+
+        <div class="form-group m-form__group row">
+            
+            {% if not conteudos %}
+                <div class="m-portlet__body" id="box-form-conteudo">
+                    
+                    <form name="form-conteudo">
+                        <input type="hidden" name="tipo" value="{{tipos_conteudo.CONTEUDO_TEXTO}}">
+                        <input type="hidden" name="evento" value="{{evento.uuid}}">
+                        <textarea required name="conteudo" class="form-control" data-provide="markdown" rows="10"></textarea>
+                        <button class="btn btn-success btn-salvar-conteudo-">Salvar</button>
+                    </form>
+                    
+                </div>
+            {% endif %}
+            
+            <div id="loop-conteudo">
+
+                <div class="col-md-11">
+                    <img src="" class="img-fluid" width='100%' id="img-provisoria-conteudo" />
+                </div>
+                
+                {% for item in conteudos %}
+                    
+                    <form name="form-conteudo">
+                        
+                        <input type="hidden" name="uuid" value="{{item.uuid}}">
+                        <input type="hidden" name="tipo" value="{{item.tipo}}">
+
+                        <div class="m-portlet__body">
+
+                            <div class="form-group m-form__group row">
+                                
+                                <div class="col-md-11">
+
+                                    {% if item.is_texto %}
+                                        <textarea name="conteudo" class="form-control" data-provide="markdown" rows="10">{{item.conteudo}}</textarea>
+                                    {% endif %}
+
+                                    {% if item.is_video %}
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            {% video item.conteudo 'small' %}
+                                        </div>
+                                    {% endif %}
+
+                                    {% if item.is_imagem %}
+                                        <img src="{{item.image_url}}" class="img-fluid">
+                                    {% endif %}
+
+                                </div>
+
+                                <label class="col-form-label col-md-1">
+                                
+                                    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                                        <button type="button" class="btn btn-secondary up"><i class="fas fa-arrow-up"></i></button>
+                                        <button type="button" class="btn btn-secondary down"><i class="fas fa-arrow-down"></i></button>
+                                        <button type="button" class="btn btn-secondary remover-conteudo"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                
+                                </label>
+                            </div>                        
+                        </div>
+                    </form>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <button type="button" id="add-texto" class="m-btn btn btn-secondary"><i class="fas fa-text-height"></i> Adicionar texto</button>
+            <button type="button" id="anexar-imagem" class="m-btn btn btn-secondary"><i class="far fa-image"></i> Adicionar imagem</button>
+            <button type="button" id="add-video" class="m-btn btn btn-secondary"><i class="fab fa-youtube"></i> Adicionar vídeo</button>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="m-portlet__foot m-portlet__foot--fit">
+    <div class="m-form__actions m-form__actions--solid m-form__actions--right">
+        <button type="reset" class="btn btn-secondary">Editar informações básicas</button>
+        <a href="{% url "eventos:passo-3" evento.uuid %}" class="btn btn-brand">Continuar</a>
+    </div>
+</div>
+
+<form id="form-imagem-conteudo">
+    {% csrf_token %}
+    <input name="evento" value="{{evento.uuid}}" type="hidden" />
+    <div class="row" style="display:none;">
+        <input class="form-control" type="file" id="id-imagem-conteudo" required name="imagem" />
+    </div>
+</form>
+
+{% endblock %}
+
+{% block js_extras %}
+
+    <script>
+        const CONTEUDO_VIDEO = {{tipos_conteudo.CONTEUDO_VIDEO}}
+        const CONTEUDO_TEXTO = {{tipos_conteudo.CONTEUDO_TEXTO}}
+        const CONTEUDO_IMAGEM = {{tipos_conteudo.CONTEUDO_IMAGEM}}
+        const UUID_EVENTO = "{{evento.uuid}}"
+    </script>
+
+    <script src="{% static "js/passos-cadastro.js" %}?update={% token_scripts %}" type="text/javascript"></script>
+    <script src="{% static "js/conteudo-evento.js" %}?update={% token_scripts %}" type="text/javascript"></script>
+    
+{% endblock %}

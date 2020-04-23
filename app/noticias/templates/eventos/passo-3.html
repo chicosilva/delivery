@@ -1,0 +1,287 @@
+{% extends "painel.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load core_extras %}
+{% load bootstrap_pagination %}
+{% load thumbnail %}
+{% load embed_video_tags %}
+
+{% block content %}
+
+<form class="m-form" id="form-ingresso">
+
+    <input type="hidden" name="nome_meia_entrada" value="Meia entrada">
+    <input type="hidden" name="evento" value="{{evento.uuid}}">
+    <input type="hidden" name="tipo">
+
+    <div class="col-md-12 text-center">
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__body">
+            <h3>
+                <i class="fas fa-2x fa-ticket-alt"></i><br>
+                Adicionar ingresso<br>
+                <small>Escolha o tipo de ingresso que deseja criar.</small>
+                <br>
+                <br>
+            </h3>
+            <div class="m-demo__preview m-demo__preview--btn">
+                <button type="button" tipo="1" class="btn btn-secondary btn-lg btn-add-ingresso">Ingresso pago</button>
+                <button type="button" tipo="2" class="btn btn-secondary btn-lg btn-add-ingresso">Ingresso gratuito</button>
+                <!--
+                <button type="button" tipo="3" class="btn btn-secondary btn-lg btn-add-ingresso">Doação</button>
+                -->
+            </div>
+        </div>
+    </div>
+
+    <div class="m-portlet" v-if="mostra_lista_ingressos==true">
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Ingressos Cadastrados
+                    </h3>
+                </div>
+            </div>
+        </div>
+        
+        {% include "eventos/lista-ingressos.html" %}
+
+    </div>
+
+    <div class="col-md-12" id="container-form-ingressos" style="display:none">
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Dados do ingresso
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__body">
+            <div class="form-group m-form__group row">
+                <div class="col-md-6">
+                    <label for="example_input_full_name">Nome do ingresso</label>
+                    <input type="text" v-model="ingresso.nome" name="nome" required id="nome" class="form-control m-input" placeholder="Ex.: Pista... 1º Lote...">
+                </div>
+                <div class="col-md-3">
+                    <label for="example_input_full_name">Quantidade disponível</label>
+                    <input type="number" v-model="ingresso.quantidade" name="quantidade" required class="form-control m-input" placeholder="">
+                </div>
+                <div class="col-md-3">
+                    <label for="example_input_full_name">Preço</label>
+                    <div class="input-group m-input-group m-input-group--square">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">R$</span>
+                        </div>
+                        <input type="text" name="valor" v-model="ingresso.valor" class="form-control m-input money" placeholder="0,00" aria-describedby="basic-addon1">
+                    </div>										
+                </div>
+            </div>
+
+            <div class="m-form__group form-group row titulo-meia-entrada">
+                <label class="col-12 col-form-label">Ativar ingresso?</label>
+                <div class="col-12">
+                    <input data-switch="true" type="checkbox" input="ativo" value="1" id="ativo">
+                </div>
+            </div>
+
+            <div class="m-form__group form-group row titulo-meia-entrada">
+                <label class="col-12 col-form-label">Criar meia entrada para esse ingresso?</label>
+                <div class="col-12">
+                    <input data-switch="true" type="checkbox" input="meia_entrada" value="1" id="meia_entrada">
+                </div>
+            </div>
+
+            <div class="form-group m-form__group row" id="valores-meia-entrada" style="display:none">
+
+                <div class="col-md-6">
+                    <label for="example_input_full_name">Nome do ingresso</label>
+                    <input type="text" name="nome_meia_entrada" class="form-control m-input" disabled placeholder="Meia entrada">
+                </div>
+                <div class="col-md-3">
+                    <label for="example_input_full_name">Quantidade disponível</label>
+                    <input type="number" name="quantidade_meia_entrada" v-model="ingresso.quantidade_meia_entrada" class="form-control m-input" value="0" placeholder="">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="example_input_full_name">Preço</label>
+                    <div class="input-group m-input-group m-input-group--square">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">R$</span>
+                        </div>
+                        <input type="text" name="valor_meia_entrada" v-model="ingresso.valor_meia_entrada" class="form-control m-input money" placeholder="0,00" value="0,00" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Período de vendas deste ingresso
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__body ">
+            <div class="form-group m-form__group row">
+                <div class="col-md-3">
+                    <span class="">Data de início das vendas</span>
+                    <div class="input-group date">
+                        <input type="text" name="data_inicio" v-model="ingresso.data_inicio" autocomplete="off" required class="form-control m-input datepicker" placeholder="Data de início" />
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-calendar-check-o"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <span class="">Hora de início das vendas</span>
+                    <div class="input-group">
+                        <input class="form-control m-input timepicker" v-model="ingresso.hora_inicio" autocomplete="off" name="hora_inicio" required placeholder="Hora de início" type="text" />
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-clock-o"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <span class="">Data de término das vendas</span>
+                    <div class="input-group date">
+                        <input type="text" name="data_termino" v-model="ingresso.data_termino" autocomplete="off" required class="form-control m-input datepicker" placeholder="Data de término" />
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-calendar-check-o"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <span class="">Hora de término das vendas</span>
+                    <div class="input-group">
+                        <input class="form-control m-input timepicker" required v-model="ingresso.hora_termino" name="hora_termino" placeholder="Hora de término" type="text" autocomplete="off" />
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-clock-o"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+
+                    <h3 class="m-portlet__head-text">
+                        Disponibilidade do ingresso
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__body">
+            <div class="form-group m-form__group row">
+                <div class="col-md-3">
+                    <select required name="disponibilidade" v-model="ingresso.disponibilidade" class="form-control m-bootstrap-select m_selectpicker">
+                        {% for disponibilidade in disponibilidades %}
+                            <option value="{{disponibilidade.pk}}">{{disponibilidade.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+
+                    <h3 class="m-portlet__head-text">
+                        Quantidade permitida por compra
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__body ">
+            <div class="form-group m-form__group row">
+                <div class="col-md-3">
+                    <label for="example_input_full_name">Quantidade mínima</label>
+                    <input type="number" v-model="ingresso.quantidade_minima" required name="quantidade_minima" class="form-control m-input" value="1">
+                </div>
+                <div class="col-md-3">
+                    <label for="example_input_full_name">Quantidade máxima</label>
+                    <input type="number" v-model="ingresso.quantidade_maxima" name="quantidade_maxima" class="form-control m-input" value="10">
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+
+                    <h3 class="m-portlet__head-text">
+                        Descrição do ingresso (opcional)
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-portlet__body ">
+            <div class="form-group m-form__group row">
+                <div class="col-md-6">
+                    <textarea type="text" rows="5" name="descricao" v-model="ingresso.descricao" class="form-control m-input" placeholder="Informações adicionais ao ingresso. Ex.: Esse ingresso dá direito a um brinde."></textarea>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="m-portlet__foot m-portlet__foot--fit">
+        <div class="m-form__actions m-form__actions--solid m-form__actions--right">
+            
+            <a href="{% url "eventos:passo-2" evento.uuid %}" class="btn btn-default">Dados básicos</a>
+            <button type="button" id="btn-cancelar" class="btn btn-secondary" style="display:none">Cancelar</button>
+            <button id="btn-salvar" class="btn btn-brand" style="display:none">Salvar</button>
+            {% include "core/loading.html" %}
+
+        </div>
+    </div>					
+				
+</form>
+
+{% endblock %}
+
+{% block js_extras %}
+    
+    <script>
+        
+        const INGRESSO_PAGO = {{tipos_ingressos.INGRESSO_PAGO}}
+        const INGRESSO_GRATUITO = {{tipos_ingressos.INGRESSO_GRATUITO}}
+        const INGRESSO_DOACAO = {{tipos_ingressos.INGRESSO_DOACAO}}
+        const UUID_EVENTO = "{{evento.uuid}}"
+    </script>
+
+    <script src="{% static "js/ingressos.js" %}?update={% token_scripts %}" type="text/javascript"></script>
+
+{% endblock %}

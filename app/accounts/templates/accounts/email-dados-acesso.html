@@ -1,0 +1,76 @@
+{% extends "core/email.html" %}
+{% block content %}
+    <tbody>
+    <tr>
+        <td align="center">
+            <table width="550" align="center" cellspacing="0" cellpadding="0" border="0" class="content-width">
+                <tbody>
+                <tr>
+                    <td align="center">
+                        <table width="100%" align="center" cellspacing="0" cellpadding="0" border="0"
+                               class="full-width">
+                            <tbody>
+                            <tr>
+                                <td height="30">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td height="10" style="font-size:10px; mso-line-height-rule:exactly; line-height:10px;">
+                                    &nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td class="font_fix"
+                                    style="font-size:16px; mso-line-height-rule:exactly; line-height:20px; color:#555555; font-weight:bold; font-family: 'Montserrat', sans-serif;"
+                                    align="center">
+                                    <strong style="font-size:20px; text-transform:uppercase;">
+                                        {{user.name}}, seus dados de acesso:
+                                    </strong><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="20" style="line-height:20px; "></td>
+                            </tr>
+
+                            <tr>
+                                <td align="center">
+                                    <table cellspacing="0" cellpadding="0" border="0" align="center">
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-size:14px; padding: 0px 20px; mso-line-height-rule:exactly; line-height:19px; color:#636363; font-weight:normal; font-family: Arial, Helvetica, sans-serif;"
+                                                align="center">
+                                                
+                                                <strong>e-mail:</strong> {{user.email}}
+                                                <br><br>
+                                                <strong>Senha: </strong>{{senha}}
+                                                <br><br>
+
+                                                <strong>Link de acesso:</strong> 
+                                                <a href="https://ctms.pro.br">
+                                                    https://ctms.pro.br
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            
+
+
+                            <tr>
+                                <td height="30">&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- End Column 1 -->
+                    </td>
+                </tr>
+
+
+                </tbody>
+            </table>
+            <!-- End Block Content -->
+        </td>
+    </tr>
+    </tbody>
+{% endblock %}

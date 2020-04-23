@@ -1,0 +1,58 @@
+<div class="m-portlet__body">
+    <div class="m-section">
+        <div class="m-section__content">
+            <div class="table-responsive">
+                <table class="table table-striped m-table">
+                    <thead>
+                        <tr>
+                            <th>Editar</th>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Preço</th>
+                            <th>Tipo</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr v-for="ingresso in ingressos">
+                            <th scope="row">
+                                <ul class="m-nav m-nav--inline">
+                                    <li class="m-nav__item">
+                                        <a href="" @click.prevent="getIngresso(ingresso.uuid, $event)" class="m-nav__link">
+                                            <i class="fas fa-edit fa-2x"></i>
+                                        </a>
+                                    </li>
+                                </ul>                                                     
+                            </th>
+                            <td>${ingresso.nome}</td>
+                            <td>${ingresso.quantidade}<br><small>(de 300 disponibilizados)</small></td>
+                            <td>R$ ${ingresso.valor|formatMoney}</td>
+                            <td><i class="fas fa-users"></i> ${ingresso.disponibilidade_nome}</span></td>
+                            <td>
+                                <span class="m-badge m-badge--wide" :class="ingresso.ativo ? 'm-badge--success' : 'm-badge--warning'">
+                                    ${ingresso.ativo ? "Ativo": 'Inativo'}
+                                </span>
+                            </td>
+                            <td>
+                                <ul class="m-nav m-nav--inline">
+                                    <li class="m-nav__item">
+                                        <a href="" @click.prevent="deleteIngresso(ingresso.uuid, $event)" class="m-nav__link">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </li>
+                                </ul>                                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            {% include "core/loading.html" %}
+
+        </div>
+        
+    </div>
+    
+</div>
