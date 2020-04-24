@@ -39,11 +39,11 @@ def add(request):
 
 def editar(request, id):
     
-    noticia = Restaurante.objects.get(pk=id)
+    restaurante = Restaurante.objects.get(pk=id)
 
     if request.method == 'POST':
         
-        form = RestauranteForm(request.POST, request.FILES, instance=noticia)
+        form = RestauranteForm(request.POST, request.FILES, instance=restaurante)
         
         if form.is_valid():
 
@@ -52,10 +52,11 @@ def editar(request, id):
             return redirect(reverse('gestao:restaurantes:lista'))
         
     else:
-        form = RestauranteForm(instance=noticia)
+        form = RestauranteForm(instance=restaurante)
 
     dados = {
-        'form': form
+        'form': form,
+        'restaurante': restaurante,
     }
 
     return render(request, 'restaurantes/add.html', dados)

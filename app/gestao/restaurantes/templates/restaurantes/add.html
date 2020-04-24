@@ -38,7 +38,11 @@
 
 								<div class="m-portlet__body">
 
-									<form action="{% url "gestao:restaurantes:add" %}" method="post">
+									{% if not restaurante %}
+										<form action="{% url "gestao:restaurantes:add" %}" method="post">
+									{% else %}
+										<form action="{% url "gestao:restaurantes:editar" restaurante.pk %}" method="post">
+									{% endif %}
 
 										{% csrf_token %}
 										<div class="m-form__section m-form__section--first">
@@ -94,8 +98,9 @@
 													<div class="m-form__group form-group">
 														<br>
 														<div class="m-checkbox-list">
+
 															<label class="m-checkbox">
-																<input type="checkbox"> Ativo?
+																{% render_field form.ativo %} Ativo?
 																<span></span>
 															</label>
 															

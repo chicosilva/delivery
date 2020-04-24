@@ -8,7 +8,7 @@ class Restaurante(ModelDefault):
     nome = models.CharField(max_length=150)
     email = models.EmailField(max_length=90)
     telefone = models.CharField(max_length=20)
-    status = models.BooleanField(default=True)
+    ativo = models.BooleanField(default=True)
     slug = models.SlugField(max_length=100)
 
     def __str__(self):
