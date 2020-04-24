@@ -18,13 +18,13 @@
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title">
 								<h3 class="m-portlet__head-text">
-									Notícias
+									Restaurantes
 								</h3>
 							</div>
 						</div>
 
 						<div class="m-portlet__head-tools">
-							<a href="{% url "gestao:noticias:add" %}" class="btn btn-metal">  <i class="flaticon-plus"></i> Nova</a>
+							<a href="{% url "gestao:restaurantes:add" %}" class="btn btn-metal">  <i class="flaticon-plus"></i> Nova</a>
 						</div>
 
 					</div>
@@ -39,27 +39,23 @@
 								<table class="table table-striped">
 									<thead>
 										<tr>
-											<th>TÍTULO</th>
-											<th class="text-center">VIEWS</th>
-											<th class="text-center">COMENTÁRIOS</th>
-											<th class="text-center">PUBLICADO?</th>
-											<th class="text-center">DATA</th>
+											<th>Nome</th>
+											<th class="text-center">Ativo?</th>
+											<th class="text-center">Ações</th>
 										</tr>
 									</thead>
 									<tbody>
 
-										{% for noticia in noticias %}
+										{% for restaurante in restaurantes %}
 											<tr>
 												<td>
-													<a href="{% url "gestao:noticias:editar" noticia.pk %}">
-														{{noticia.title}}
+													<a href="{% url "gestao:restaurantes:editar" restaurante.pk %}">
+														{{restaurante.nome}}
 													</a>
 
 												</td>
-												<td class="text-center">86</td>
+												<td class="text-center">Sim</td>
 												<td class="text-center">12</td>
-												<td class="text-center"><span class="m-badge m-badge--success m-badge--wide">P</span></td>
-												<td class="text-center">12/12/2020</td>
 											</tr>
 										{% endfor %}
 										

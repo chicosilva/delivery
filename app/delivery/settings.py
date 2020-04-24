@@ -15,8 +15,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'noticias',
-    'gestao.noticias.apps.NoticiasConfig',
+    'restaurantes',
+    'gestao.restaurantes.apps.RestaurantesConfig',
     'widget_tweaks',
     
 ]
@@ -31,7 +31,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'patoshoje.urls'
+ROOT_URLCONF = 'delivery.urls'
 
 TEMPLATES = [
     {
@@ -49,7 +49,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'patoshoje.wsgi.application'
+WSGI_APPLICATION = 'delivery.wsgi.application'
 
 DATABASES = {
     "default": {

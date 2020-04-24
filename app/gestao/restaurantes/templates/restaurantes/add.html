@@ -1,0 +1,187 @@
+{% extends "gestao.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+
+	<div class="m-content">
+
+		<div class="row">
+
+			<div class="col-xl-12">
+
+				<div class="m-portlet">
+
+					<div class="m-portlet__head">
+						
+						<div class="m-portlet__head-caption">
+							<div class="m-portlet__head-title">
+								<h3 class="m-portlet__head-text">
+									Adicionar Filial
+								</h3>
+							</div>
+						</div>
+
+						<div class="m-portlet__head-tools">
+							<a href="{% url "gestao:restaurantes:lista" %}"> <i class="flaticon-reply"></i> Voltar</a>
+						</div>
+
+					</div>
+
+					<div class="m-portlet__body">
+
+						<!--begin::Section-->
+						<div class="m-section">
+							<div class="m-section__content">
+
+								<div class="m-portlet__body">
+
+									<form action="{% url "gestao:restaurantes:add" %}" method="post">
+
+										{% csrf_token %}
+										<div class="m-form__section m-form__section--first">
+
+											<div class="row">
+
+												<div class="col-md-6">
+
+													<div class="form-group m-form__group">
+														<label for="example_input_full_name">Nome:</label>
+														{% render_field form.nome class="form-control m-input" required=True type="text" %}
+													</div>
+
+												</div>
+
+												<div class="col-md-6">
+
+													<div class="form-group m-form__group">
+														<label>Slug:</label>
+														{% render_field form.slug class="form-control m-input" required=True type="text" %}
+													</div>
+
+												</div>
+
+											</div>
+
+											<div class="row">
+
+												<div class="col-md-6">
+
+													<div class="form-group m-form__group">
+														<label for="example_input_full_name">e-mail:</label>
+														{% render_field form.email class="form-control m-input" required=True type="text" %}
+													</div>
+
+												</div>
+
+												<div class="col-md-6">
+
+													<div class="form-group m-form__group">
+														<label>Telefone:</label>
+														{% render_field form.telefone class="form-control m-input" required=True type="text" %}
+													</div>
+
+												</div>
+
+											</div>
+
+											<div class="row">
+
+												<div class="col-md-2">
+
+													<div class="m-form__group form-group">
+														<br>
+														<div class="m-checkbox-list">
+															<label class="m-checkbox">
+																<input type="checkbox"> Ativo?
+																<span></span>
+															</label>
+															
+															
+														</div>
+													</div>
+
+												</div>
+
+
+											</div>
+											
+											<div class="m-form__actions m-form__actions">
+												<hr>
+												<button type="submit" class="btn btn-primary">Salvar</button>
+											</div>
+
+										</div>
+									</form>
+
+									
+								</div>
+
+
+								<!--
+								<div class="m-portlet__foot m-portlet__foot--fit">
+									<div class="m-form__actions m-form__actions">
+										<button type="reset" class="btn btn-primary">Salvar</button>
+									</div>
+								</div>
+								-->
+								
+							</div>
+						</div>
+
+						<!--end::Section-->
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</div>
+</div>
+
+
+{% endblock content %}
+
+{% block js_extras %}
+
+	<script>
+
+		$(document).on('click', '#mostrar-configuracoes-avancadas', function(){
+			
+			if($(this).is(":checked")){
+				
+				$(".configuracoes-avancadas").show();
+				return
+			}
+
+			$(".configuracoes-avancadas").hide();
+
+		})
+
+		tinymce.init({
+			selector: '#text',
+			height: 800,
+			menubar: false,
+			language: 'pt_BR',
+			browser_spellcheck: true,
+			spellchecker_language: 'pt_BR',
+			plugins: [
+				'link image imagetools table media code preview tinymcespellchecker '
+			],
+
+			toolbar: 'undo redo | media | code  | preview | formatselect | tinymcespellchecker | ' +
+			'bold italic backcolor | alignleft aligncenter ' +
+			'alignright alignjustify | bullist numlist outdent indent | ' +
+			'removeformat | help',
+		})
+
+		document.getElementById('text').removeAttribute("required")
+
+	</script>
+
+{% endblock %}
